@@ -839,16 +839,16 @@ angular.module('myApp.controllers', ['myApp.i18n'])
       }
     })
 
-    $scope.$on('history_delete', function (e, historyUpdate) {
-      for (var i = 0; i < $scope.dialogs.length; i++) {
-        if ($scope.dialogs[i].peerID == historyUpdate.peerID) {
-          if (historyUpdate.msgs[$scope.dialogs[i].mid]) {
-            $scope.dialogs[i].deleted = true
-          }
-          break
-        }
-      }
-    })
+    // $scope.$on('history_delete', function (e, historyUpdate) {
+    //   for (var i = 0; i < $scope.dialogs.length; i++) {
+    //     if ($scope.dialogs[i].peerID == historyUpdate.peerID) {
+    //       if (historyUpdate.msgs[$scope.dialogs[i].mid]) {
+    //         $scope.dialogs[i].deleted = true
+    //       }
+    //       break
+    //     }
+    //   }
+    // })
 
     $scope.$on('apiUpdate', function (e, update) {
       switch (update._) {

@@ -10,6 +10,8 @@ var runSequence = require('run-sequence')
 var swPrecache = require('sw-precache')
 var Server = require('karma').Server
 
+const PORT = 3030
+
 // The generated file is being created at src
 // so it can be fetched by usemin.
 gulp.task('templates', function () {
@@ -266,7 +268,7 @@ gulp.task('watch', ['server', 'less'], function () {
 gulp.task('server', function (done) {
   http.createServer(
     st({ path: __dirname, index: 'index.html', cache: false })
-  ).listen(8000, done)
+  ).listen(PORT, done)
 })
 
 gulp.task('clean', function () {

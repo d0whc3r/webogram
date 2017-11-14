@@ -3347,6 +3347,7 @@ angular.module('myApp.services')
 
         case 'updateDeleteMessages':
         case 'updateDeleteChannelMessages':
+          console.log('## DETECTED MESSAGE DELETED')
           var dialogsUpdated = {}
           var historiesUpdated = {}
           var channelID = update.channel_id
@@ -3356,10 +3357,12 @@ angular.module('myApp.services')
           var history
           var peerMessagesToHandle
           var peerMessagesHandlePos
+          var channel = AppChatsManager.getChat(channelID)
 
           for (i = 0; i < update.messages.length; i++) {
             messageID = AppMessagesIDsManager.getFullMessageID(update.messages[i], channelID)
             message = messagesStorage[messageID]
+            console.log(`## MESSAGE DELETED (@${channel.username}) [${channel.title}]`, message, message.message)
             if (message) {
               peerID = getMessagePeer(message)
               history = historiesUpdated[peerID] || (historiesUpdated[peerID] = {count: 0, unread: 0, msgs: {}})
@@ -3371,32 +3374,32 @@ angular.module('myApp.services')
               history.count++
               history.msgs[messageID] = true
 
-              if (messagesForHistory[messageID]) {
-                messagesForHistory[messageID].deleted = true
-                delete messagesForHistory[messageID]
-              }
-              if (messagesForDialogs[messageID]) {
-                messagesForDialogs[messageID].deleted = true
-                delete messagesForDialogs[messageID]
-              }
-              message.deleted = true
-              messagesStorage[messageID] = {
-                deleted: true,
-                id: messageID,
-                from_id: message.from_id,
-                to_id: message.to_id,
-                flags: message.flags,
-                pFlags: message.pFlags,
-                date: message.date
-              }
+              // if (messagesForHistory[messageID]) {
+              //   messagesForHistory[messageID].deleted = true
+              //   delete messagesForHistory[messageID]
+              // }
+              // if (messagesForDialogs[messageID]) {
+              //   messagesForDialogs[messageID].deleted = true
+              //   delete messagesForDialogs[messageID]
+              // }
+              // message.deleted = true
+              // messagesStorage[messageID] = {
+              //   deleted: true,
+              //   id: messageID,
+              //   from_id: message.from_id,
+              //   to_id: message.to_id,
+              //   flags: message.flags,
+              //   pFlags: message.pFlags,
+              //   date: message.date
+              // }
 
-              peerMessagesToHandle = newMessagesToHandle[peerID]
-              if (peerMessagesToHandle && peerMessagesToHandle.length) {
-                peerMessagesHandlePos = peerMessagesToHandle.indexOf(messageID)
-                if (peerMessagesHandlePos != -1) {
-                  peerMessagesToHandle.splice(peerMessagesHandlePos)
-                }
-              }
+              // peerMessagesToHandle = newMessagesToHandle[peerID]
+              // if (peerMessagesToHandle && peerMessagesToHandle.length) {
+              //   peerMessagesHandlePos = peerMessagesToHandle.indexOf(messageID)
+              //   if (peerMessagesHandlePos != -1) {
+              //     peerMessagesToHandle.splice(peerMessagesHandlePos)
+              //   }
+              // }
             }
           }
 
@@ -3427,7 +3430,7 @@ angular.module('myApp.services')
               }
               historyStorage.pending = newPending
 
-              $rootScope.$broadcast('history_delete', {peerID: peerID, msgs: updatedData.msgs})
+              // $rootScope.$broadcast('history_delete', {peerID: peerID, msgs: updatedData.msgs})
             }
 
             var foundDialog = getDialogByPeerID(peerID)[0]
